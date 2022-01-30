@@ -1,34 +1,38 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: elerika <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/01/15 00:08:49 by elerika           #+#    #+#              #
+#    Updated: 2022/01/15 00:08:52 by elerika          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-# NAME =  push_swap.a
+NAME = push_swap
+HEADER = push_swap.h
+SRCS = push_swap.c	sources.c\
 
-# LIST = 	
+OBJS = ${SRCS:%.c=%.o}
+FLAGS = -Wall -Wextra -Werror
 
-# HEADER	=	 push_swap.h
+.PHONY : all clean fclean re hello
 
-# OBJ = $(patsubst %.c, %.o, $(LIST))
+all : ${NAME} hello
 
-# FLAGS = -Wall -Werror -Wextra -I${HEADER}
+${NAME} : ${HEADER} ${OBJS}
+	@gcc ${FLAGS} ${OBJS} -o ${NAME}
+	@echo "$(NAME) Created!" $(EOC)
 
-# all: $(NAME)
+%.o : %.c ${HEADER}
+	@gcc ${FLAGS} -c $< -o $@
 
-# $(NAME): 	$(OBJ) ${HEADER}
-# 			ar rcs $(NAME) $?
+clean :
+	@rm -rf $(OBJS) $(HEADER:%.h=%.h.gch)
 
-# %.o : %.c 	${HEADER}
-# 			gcc $(FLAGS) -c $< -o $@
+fclean : clean
+	@rm -rf $(NAME)
+	@echo "$(NAME) make fclean!"
 
-# clean:
-# 			rm -f $(OBJ)
-
-# fclean:		clean
-# 			rm -f $(NAME)
-
-# re: fclean all
-
-# .PHONY: all clean fclean re
-
-
-FLAGS = -Wall -Werror -Wextra
-
-all:
-	gcc push_swap.c $(FLAGS) -o push_swap
+re : fclean all
